@@ -1,0 +1,52 @@
+#include "Renderer.h"
+#include "Map.h"
+#include "Entities.h"
+#include "GlobalConsts.h"
+
+#include "raylib.h"
+#include <iostream>
+#include <vector>
+
+Texture2D tileset;
+
+void RendererInitialize() {
+	std::cout << "Initializing renderer" << std::endl;
+	tileset = LoadTexture("Assets/16x16_sm_ascii.png");
+}
+
+
+void MapDraw() {
+	//std::cout << "Drawing map" << std::endl;
+	for (int y = 0; y < WORLD_HEIGHT; y++) {
+		for (int x = 0; x < WORLD_WIDTH; x++) {
+			int tile = GetTile(x, y);
+			Rectangle tileRect = { (tile % TILESET_WIDTH) * TILE_SIZE, (int)(tile / TILESET_HEIGHT) * TILE_SIZE, TILE_SIZE, TILE_SIZE };
+			Vector2 tilePos = { x * TILE_SIZE, y * TILE_SIZE };
+			DrawTextureRec(tileset, tileRect, tilePos, DARKGRAY);
+		}
+	}
+}
+
+void EntitiesDraw() {
+	//std::cout << "Drawing entities" << std::endl;
+	Rectangle tileRect = { (TILE_INDEX_PLAYER % TILESET_WIDTH) * TILE_SIZE, (int)(TILE_INDEX_PLAYER / TILESET_HEIGHT) * TILE_SIZE, TILE_SIZE, TILE_SIZE };
+	Vector2 playerPos = PlayerPositionGet();
+	playerPos.x *= TILE_SIZE;
+	playerPos.y *= TILE_SIZE;
+	DrawTextureRec(tileset, tileRect, playerPos, WHITE);
+
+	std::vector<Entity> entities = EntitiesGet();
+	for (int i = 0; i < entities.size(); i++) {
+		Rectangle tileRect = { (entities[i].tileIndex % TILESET_WIDTH) * TILE_SIZE, (int)(entities[i].tileIndex / TILESET_HEIGHT) * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+		Vector2 entityPos = entities[i].position;
+		entityPos.x *= TILE_SIZE;
+		entityPos.y *= TILE_SIZE;
+		DrawTextureRec(tileset, tileRect, entityPos, entities[i].color);
+	}
+
+}
+
+void RendererClose() {
+	std::cout << "Closing renderer" << std::endl;
+	UnloadTexture(tileset);
+}
