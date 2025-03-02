@@ -126,10 +126,34 @@ int GetTileTilesetIndex(int x, int y) {
 	return map[x][y].tileIndex;
 }
 
+void AddEntityToTile(int x, int y, int ID) {
+	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
+		throw std::runtime_error("Map, AddEntityToTile, trying to get tile outside of map bounds");
+	map[x][y].AddEntity(ID);
+}
+
+void RemoveEntityFromTile(int x, int y, int ID) {
+	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
+		throw std::runtime_error("Map, RemoveEntityFromTile, trying to get tile outside of map bounds");
+	map[x][y].RemoveEntity(ID);
+}
+
 bool IsWalkable(int x, int y) {
 	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
 		throw std::runtime_error("Map, IsMovable, trying to get tile outside of map bounds");
 	return map[x][y].isWalkable;
+}
+
+bool IsOccupiedByEntity(int x, int y) {
+	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
+		throw std::runtime_error("Map, IsMovable, trying to get tile outside of map bounds");
+	return map[x][y].OccupiedByEntity();
+}
+
+bool IsOccupiedByEntity(int x, int y, int ID) {
+	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
+		throw std::runtime_error("Map, IsMovable, trying to get tile outside of map bounds");
+	return map[x][y].OccupiedByEntity(ID);
 }
 
 void CreateVerticalCoridor(int y1, int y2, int x) {

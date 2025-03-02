@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "raylib.h"
 #include "Heatmaps.h"
+#include "Map.h"
 #include "Entities.h"
 
 #include <iostream>
@@ -21,11 +22,19 @@ void Entity::CalculateTurn() {
 		for (int x = position.x - 1; x <= position.x + 1; x++) {
 			if (x < 0 || y < 0 || x > WORLD_WIDTH || y > WORLD_HEIGHT)
 				continue;
-			if ((x == position.x && y == position.y) || GetPlayerHeatmapTile(x, y) == -1)
+			if (x == position.x && y == position.y)
 				continue;
-			if (GetPlayerHeatmapTile(x, y) < bestScore) {
+			if (IsOccupiedByEntity(x, y) && !IsOccupiedByEntity(x, y, 0))
+				continue;
+			
+			int heatmapValue = GetPlayerHeatmapTile(x, y);
+
+			if (heatmapValue == -1)
+				continue;
+
+			if (heatmapValue < bestScore) {
 				bestDirection = {x - position.x, y - position.y};
-				bestScore = GetPlayerHeatmapTile(x, y);
+				bestScore = heatmapValue;
 			}
 		}
 	}

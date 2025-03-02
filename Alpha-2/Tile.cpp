@@ -12,20 +12,25 @@ Tile::Tile(int tileIndex, bool isWalkable) {
 }
 
 void Tile::AddEntity(int ID) {
-	isWalkable = false;
+	//isWalkable = false;
 	entities.push_back(ID);
 }
 
 void Tile::RemoveEntity(int ID) {
-	isWalkable = true;
-	auto it = std::find_if(entities.begin(), entities.end(), [ID](const int foundID) {
-		return foundID == ID;
-	});
-
+	auto it = std::find(entities.begin(), entities.end(), ID);
 	if (it != entities.end()) {
 		entities.erase(it);
 	}
-	else {
-		throw std::runtime_error("Tile, RemoveEntity, trying to remove entity that doesn't exist");
+}
+
+bool Tile::OccupiedByEntity() {
+	return entities.size() > 0;
+}
+
+bool Tile::OccupiedByEntity(int ID) {
+	for (auto entity : entities) {
+		if (entity == ID)
+			return true;
 	}
+	return false;
 }

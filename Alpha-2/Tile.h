@@ -14,6 +14,8 @@ public:
 	Tile(int tileIndex, bool isWalkable);
 	void AddEntity(int ID);
 	void RemoveEntity(int ID);
+	bool OccupiedByEntity();
+	bool OccupiedByEntity(int ID);
 };
 
 #endif

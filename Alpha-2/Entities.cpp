@@ -12,9 +12,11 @@ int maxID = 1;
 std::vector<Entity> entities;
 
 Vector2 ladderPosition;
+Vector2 playerPosition;
 
 
 void AddEntity(Vector2 pos, int tileIndex, Color color) {
+	AddEntityToTile(pos.x, pos.y, maxID);
 	Entity newEntity(maxID, pos, tileIndex, color);
 	entities.push_back(newEntity);
 	maxID++;
@@ -73,13 +75,16 @@ void EntityMove(Vector2 direction, int ID) {
 				return;
 			}
 	
-			if (!IsWalkable(newPosition.x, newPosition.y)) 
+			if (!IsWalkable(newPosition.x, newPosition.y) || IsOccupiedByEntity(newPosition.x, newPosition.y)) 
 				return;
 			
+			RemoveEntityFromTile(entity.position.x, entity.position.y, ID);
 			entity.position = newPosition;
+			AddEntityToTile(entity.position.x, entity.position.y, ID);
 
-			if (entity.ID == 0) 
-				OnPlayerMove(entity.position);
+			if (entity.ID == 0)
+				playerPosition = entity.position;
+			OnPlayerMove(playerPosition);
 			break;
 		}
 	}

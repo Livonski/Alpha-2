@@ -17,7 +17,6 @@ Vector2 PlayerPositionGet();
 void LadderPositionSet(int x, int y);
 Vector2 LadderPositionGet();
 
-//void PlayerMove(Vector2 direction);
 void EntityMove(Vector2 direction, int ID);
 
 #endif
