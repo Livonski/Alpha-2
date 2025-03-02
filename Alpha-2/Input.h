@@ -1,6 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-void ListenToInput();
+bool ListenToInput();
 
 #endif

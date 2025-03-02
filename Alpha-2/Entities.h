@@ -9,6 +9,7 @@
 void AddEntity(Vector2 pos, int tileIndex, Color color);
 void EntitiesClear();
 std::vector<Entity> EntitiesGet();
+void EntitiesCalculateTurns();
 
 void PlayerPositionSet(int x, int y);
 Vector2 PlayerPositionGet();

@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "Map.h"
 #include "GlobalConsts.h"
+#include "Heatmaps.h"
 
 #include "raylib.h"
 #include <iostream>
@@ -27,8 +28,15 @@ std::vector<Entity> EntitiesGet() {
 	return entities;
 }
 
+void EntitiesCalculateTurns() {
+	for (int i = 0; i < entities.size(); i++) {
+		entities[i].CalculateTurn();
+	}
+}
+
 void PlayerPositionSet(int x, int y) {
 	player.position = { (float)x, (float)y };
+	OnPlayerMove(player.position);
 }
 
 Vector2 PlayerPositionGet() {
@@ -44,6 +52,9 @@ Vector2 LadderPositionGet() {
 }
 
 void PlayerMove(Vector2 direction) {
+	if (direction.x == 0 && direction.y == 0)
+		return;
+
 	Vector2 newPosition = { player.position.x + direction.x, player.position.y + direction.y };
 
 	if (newPosition.x < 0 || newPosition.x > WORLD_WIDTH ||
@@ -57,4 +68,5 @@ void PlayerMove(Vector2 direction) {
 	}
 
 	player.position = newPosition;
+	OnPlayerMove(player.position);
 }

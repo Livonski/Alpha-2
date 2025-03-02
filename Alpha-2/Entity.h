@@ -11,8 +11,8 @@ public:
 	int tileIndex;
 	Color color;
 
-
 	Entity(Vector2 position, int tileIndex, Color color);
+	void CalculateTurn();
 };
 
 

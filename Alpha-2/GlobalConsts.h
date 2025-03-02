@@ -1,17 +1,16 @@
 #ifndef GLOBALCONSTS_H
 #define GLOBALCONSTS_H
 
-const int WORLD_SEED = 1488;
-
+const int WORLD_SEED = 42069;
 
 //Tile stuff
 	
 	//Path and stuff	
-
+	
 	//const char* TILESET_PATH   = "acsii";
-	const int   TILE_SIZE      = 16;
-	const int   TILESET_HEIGHT = 16;
-	const int   TILESET_WIDTH  = 16;
+	const int TILE_SIZE      = 16;
+	const int TILESET_HEIGHT = 16;
+	const int TILESET_WIDTH  = 16;
 
 	//Tile indexes
 
@@ -31,6 +30,6 @@ const int WORLD_SEED = 1488;
 	const int WORLD_HEIGHT = WINDOW_HEIGHT / TILE_SIZE;
 
 //Entities stuff
-	const int ENEMIES_NUM_MIN = 1;
-	const int ENEMIES_NUM_MAX = 3;
+	const int ENEMIES_NUM_MIN = 2;
+	const int ENEMIES_NUM_MAX = 5;
 #endif

@@ -2,8 +2,9 @@
 #include "Map.h"
 #include "Entities.h"
 #include "GlobalConsts.h"
+#include "Heatmaps.h"
 
-#include "raylib.h"
+#include <raylib.h>
 #include <iostream>
 #include <vector>
 
@@ -43,7 +44,57 @@ void EntitiesDraw() {
 		entityPos.y *= TILE_SIZE;
 		DrawTextureRec(tileset, tileRect, entityPos, entities[i].color);
 	}
+}
 
+void HeatmapColorDraw() {
+	int maxDistance = GetPlayerHeatmapMaxDistance();
+	for (int y = 0; y < WORLD_HEIGHT; y++) {
+		for (int x = 0; x < WORLD_WIDTH; x++) {
+			int distance = GetPlayerHeatmapTile(x, y);
+			float ratio  = 1 - (float)distance / (float)maxDistance;
+			if (distance == -1)
+				ratio = 0;
+			//std::cout << "ratio: " << ratio << ", distance: " << distance << ", maxDistance: " << maxDistance << std::endl;
+			Color color = { ratio * 256, ratio * 256, ratio * 256, 0.5 * 256 };
+			DrawRectangle(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE, color);
+		}
+	}
+}
+
+void HeatmapTextDraw() {
+	// Проходим по каждой ячейке массива
+	for (int y = 0; y < WORLD_HEIGHT; y++) {
+		for (int x = 0; x < WORLD_WIDTH; x++) {
+			int value = GetPlayerHeatmapTile(x, y);
+
+			// Выбираем цвет текста в зависимости от значения
+			Color textColor = WHITE;
+			if (value == -1) {
+				textColor = RED;
+			}
+			else if (value > 0) {
+				textColor = GREEN;
+			}
+
+			// Вычисляем позицию ячейки на экране
+			int posX = x * TILE_SIZE;
+			int posY = y * TILE_SIZE;
+
+			// Отрисовываем фон ячейки (например, черный) и рамку (серый)
+			DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, BLACK);
+			DrawRectangleLines(posX, posY, TILE_SIZE, TILE_SIZE, DARKGRAY);
+
+			// Форматируем значение ячейки в строку
+			const char* text = TextFormat("%d", value);
+			int fontSize = 10;  // Размер шрифта (можно изменить)
+			int textWidth = MeasureText(text, fontSize);
+
+			// Центрируем текст в ячейке
+			int textX = posX + (TILE_SIZE - textWidth) / 2;
+			int textY = posY + (TILE_SIZE - fontSize) / 2;
+			DrawText(text, textX, textY, fontSize, textColor);
+		}
+	}
 }
 
 void RendererClose() {

@@ -4,11 +4,8 @@
 #include "raylib.h"
 #include <iostream>
 
-void ListenToInput() {
-	//std::cout << "Listening to input" << std::endl;
+bool ListenToInput() {
 	Vector2 playerMovementDirection = { 0, 0 };
-
-	//if (IsKeyPressed(KEY_W))
 	if (IsKeyPressed(KEY_W) || IsKeyPressed(KEY_KP_8))
 		playerMovementDirection = { 0, -1 };
 	if (IsKeyPressed(KEY_S) || IsKeyPressed(KEY_KP_2))
@@ -29,6 +26,8 @@ void ListenToInput() {
 
 	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_R))
 		PlayerPositionSet(LadderPositionGet().x, LadderPositionGet().y);
-
+	
 	PlayerMove(playerMovementDirection);
+
+	return (GetKeyPressed() != KEY_NULL);
 }

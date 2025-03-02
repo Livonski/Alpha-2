@@ -133,6 +133,8 @@
     <ClCompile Include="Entities.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Heatmap.cpp" />
+    <ClCompile Include="Heatmaps.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -143,6 +145,8 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GlobalConsts.h" />
+    <ClInclude Include="Heatmap.h" />
+    <ClInclude Include="Heatmaps.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Renderer.h" />
