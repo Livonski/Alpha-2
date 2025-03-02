@@ -10,7 +10,6 @@
 
 int maxID = 1;
 std::vector<Entity> entities;
-//Entity player(0, {0,0}, TILE_INDEX_PLAYER, WHITE);
 
 Vector2 ladderPosition;
 
@@ -67,8 +66,6 @@ void EntityMove(Vector2 direction, int ID) {
 		if (entity.ID == ID) {
 			found = true;
 			Vector2 newPosition = { entity.position.x + direction.x, entity.position.y + direction.y };
-			if (ID == 0)
-				std::cout << "direction: " << direction.x << " : " << direction.y << ", position: " << entity.position.x << " : " << entity.position.y << ", newPosition: " << newPosition.x << " : " << newPosition.y << std::endl;
 
 			if (newPosition.x < 0 || newPosition.x > WORLD_WIDTH ||
 				newPosition.y < 0 || newPosition.y > WORLD_HEIGHT) {
@@ -76,7 +73,7 @@ void EntityMove(Vector2 direction, int ID) {
 				return;
 			}
 	
-			if (!IsMovable(newPosition.x, newPosition.y)) 
+			if (!IsWalkable(newPosition.x, newPosition.y)) 
 				return;
 			
 			entity.position = newPosition;
@@ -91,23 +88,3 @@ void EntityMove(Vector2 direction, int ID) {
 		std::cerr << "Entities, EnityMove, Entity with ID " << ID << " not found" << std::endl;
 	}
 }
-
-/*void PlayerMove(Vector2 direction) {
-	if (direction.x == 0 && direction.y == 0)
-		return;
-
-	Vector2 newPosition = { player.position.x + direction.x, player.position.y + direction.y };
-
-	if (newPosition.x < 0 || newPosition.x > WORLD_WIDTH ||
-		newPosition.y < 0 || newPosition.y > WORLD_HEIGHT) {
-		throw std::runtime_error("Entities, PlayerMove, trying to move player outside of map bounds");
-		return;
-	}
-
-	if(!IsMovable(newPosition.x, newPosition.y)) {
-		return;
-	}
-
-	player.position = newPosition;
-	OnPlayerMove(player.position);
-}*/

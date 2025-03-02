@@ -35,7 +35,7 @@ void Heatmap::CalculateMap(Vector2 playerPosition) {
 					continue;
 				if (heatMap[x][y] != 0)
 					continue;
-				if (GetTile(x, y) != TILE_INDEX_FLOOR) {
+				if (!IsWalkable(x, y)) {
 					heatMap[x][y] = -1;
 					continue;
 				}

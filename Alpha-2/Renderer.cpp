@@ -20,7 +20,7 @@ void MapDraw() {
 	//std::cout << "Drawing map" << std::endl;
 	for (int y = 0; y < WORLD_HEIGHT; y++) {
 		for (int x = 0; x < WORLD_WIDTH; x++) {
-			int tile = GetTile(x, y);
+			int tile = GetTileTilesetIndex(x, y);
 			Rectangle tileRect = { (tile % TILESET_WIDTH) * TILE_SIZE, (int)(tile / TILESET_HEIGHT) * TILE_SIZE, TILE_SIZE, TILE_SIZE };
 			Vector2 tilePos = { x * TILE_SIZE, y * TILE_SIZE };
 			DrawTextureRec(tileset, tileRect, tilePos, DARKGRAY);

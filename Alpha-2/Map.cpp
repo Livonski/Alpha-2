@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Tile.h"
 #include "Entities.h"
 #include "GlobalConsts.h"
 
@@ -8,7 +9,11 @@ const int ROOMS_NUM = 5;
 const int ROOM_MIN_SIZE = 5;
 const int ROOM_MAX_SIZE = 10;
 
-int map[WORLD_WIDTH][WORLD_HEIGHT];
+Tile map[WORLD_WIDTH][WORLD_HEIGHT]{};
+
+Tile wallTile(TILE_INDEX_WALL, false);
+Tile floorTile(TILE_INDEX_FLOOR, true);
+Tile ladderTile(TILE_INDEX_LADDER, true);
 
 struct Room {
 	int X{};
@@ -36,9 +41,10 @@ void MapGenerate() {
 	srand(time(0));
 
 	//std::fill(map, map + WORLD_WIDTH * WORLD_HEIGHT, -1);
+
 	for (int y = 0; y < WORLD_HEIGHT; y++) {
 		for (int x = 0; x < WORLD_WIDTH; x++) {
-			map[x][y] = TILE_INDEX_WALL;
+			map[x][y] = wallTile;
 		}
 	}
 
@@ -68,7 +74,7 @@ void MapGenerate() {
 
 		for (int y = rooms[i].Y; y < rooms[i].Y + rooms[i].Height; y++) {
 			for (int x = rooms[i].X; x < rooms[i].X + rooms[i].Width; x++) {
-				map[x][y] = TILE_INDEX_FLOOR;
+				map[x][y] = floorTile;
 			}
 		}
 
@@ -108,29 +114,35 @@ void MapGenerate() {
 	PlaceLadderAndPlayer();
 }
 
-int GetTile(int x, int y) {
+Tile GetTile(int x, int y) {
 	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
 		throw std::runtime_error("Map, GetTile, trying to get tile outside of map bounds");
 	return map[x][y];
 }
 
-bool IsMovable(int x, int y) {
+int GetTileTilesetIndex(int x, int y) {
+	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
+		throw std::runtime_error("Map, GetTileTilesetID, trying to get tile outside of map bounds");
+	return map[x][y].tileIndex;
+}
+
+bool IsWalkable(int x, int y) {
 	if (x < 0 || x > WORLD_WIDTH || y < 0 || y > WORLD_HEIGHT)
 		throw std::runtime_error("Map, IsMovable, trying to get tile outside of map bounds");
-	return map[x][y] != TILE_INDEX_WALL;
+	return map[x][y].isWalkable;
 }
 
 void CreateVerticalCoridor(int y1, int y2, int x) {
 	for (int y = std::min(y1, y2); y <= std::max(y1, y2); y++) {
 		if (x > 0 && x < WORLD_WIDTH && y > 0 && y < WORLD_HEIGHT)
-			map[x][y] = TILE_INDEX_FLOOR;
+			map[x][y] = floorTile;
 	}
 }
 
 void CreateHorizontalCoridor(int x1, int x2, int y) {
 	for (int x = std::min(x1, x2); x <= std::max(x1, x2); x++) {
 		if (x > 0 && x < WORLD_WIDTH && y > 0 && y < WORLD_HEIGHT)
-			map[x][y] = TILE_INDEX_FLOOR;
+			map[x][y] = floorTile;
 	}
 }
 
@@ -140,7 +152,7 @@ void PlaceLadderAndPlayer() {
 	std::cout << ladderRoomIndex << " : " << playerRoomIndex << std::endl;
 
 	LadderPositionSet(rooms[ladderRoomIndex].CenterX, rooms[ladderRoomIndex].CenterY);
-	map[rooms[ladderRoomIndex].CenterX][rooms[ladderRoomIndex].CenterY] = TILE_INDEX_LADDER;
+	map[rooms[ladderRoomIndex].CenterX][rooms[ladderRoomIndex].CenterY] = ladderTile;
 
 	PlayerPositionSet(rooms[playerRoomIndex].CenterX, rooms[playerRoomIndex].CenterY);
 }
@@ -160,9 +172,8 @@ void GenerateEnemies(int roomIndex) {
 		Vector2 randomPosition = { rand() % (maxX - minX + 1) + minX, rand() % (maxY - minY + 1) + minY };
 		
 		//For some reason sometimes enemies spawn outside of room bounds;
-		if (map[(int)randomPosition.x][(int)randomPosition.y] != TILE_INDEX_FLOOR)
+		if (!map[(int)randomPosition.x][(int)randomPosition.y].isWalkable)
 			continue;
-
 
 		AddEntity(randomPosition, TILE_INDEX_L_G, GREEN);
 	}
