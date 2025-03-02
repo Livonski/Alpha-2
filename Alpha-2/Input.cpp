@@ -24,10 +24,11 @@ bool ListenToInput() {
 	if (IsKeyPressed(KEY_KP_3))
 		playerMovementDirection = { 1 , 1 };
 
-	if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_R))
-		PlayerPositionSet(LadderPositionGet().x, LadderPositionGet().y);
+	//if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyDown(KEY_R))
+	//	PlayerPositionSet(LadderPositionGet().x, LadderPositionGet().y);
 	
-	PlayerMove(playerMovementDirection);
+	//PlayerMove(playerMovementDirection);
+	EntityMove(playerMovementDirection, 0);
 
 	return (GetKeyPressed() != KEY_NULL);
 }

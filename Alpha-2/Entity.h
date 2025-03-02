@@ -5,13 +5,15 @@
 
 class Entity {
 public:
+	int ID;
+
 	Vector2 position;
 	Vector2 direction;
 
 	int tileIndex;
 	Color color;
 
-	Entity(Vector2 position, int tileIndex, Color color);
+	Entity(int ID, Vector2 position, int tileIndex, Color color);
 	void CalculateTurn();
 };
 

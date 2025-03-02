@@ -5,7 +5,7 @@
 #include "Entities.h"
 
 #include <raylib.h>
-//#include <iostream>
+#include <iostream>
 
 enum RenderingMode {
 	NORMAL,
@@ -29,6 +29,7 @@ void GameUpdate() {
 		if (PlayerPositionGet().x == LadderPositionGet().x && PlayerPositionGet().y == LadderPositionGet().y)
 			MapGenerate();
 		EntitiesCalculateTurns();
+		std::cout << "End turn" << std::endl;
 	}
 }
 
