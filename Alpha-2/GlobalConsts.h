@@ -30,6 +30,6 @@ const int WORLD_SEED = 42069;
 	const int WORLD_HEIGHT = WINDOW_HEIGHT / TILE_SIZE;
 
 //Entities stuff
-	const int ENEMIES_NUM_MIN = 2;
-	const int ENEMIES_NUM_MAX = 5;
+	const int ENEMIES_NUM_MIN = 1;
+	const int ENEMIES_NUM_MAX = 2;
 #endif

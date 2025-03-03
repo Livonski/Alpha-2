@@ -36,13 +36,14 @@ void EntitiesDraw() {
 	playerPos.y *= TILE_SIZE;
 	DrawTextureRec(tileset, tileRect, playerPos, WHITE);
 
-	std::vector<Entity> entities = EntitiesGet();
-	for (int i = 0; i < entities.size(); i++) {
-		Rectangle tileRect = { (entities[i].tileIndex % TILESET_WIDTH) * TILE_SIZE, (int)(entities[i].tileIndex / TILESET_HEIGHT) * TILE_SIZE, TILE_SIZE, TILE_SIZE};
-		Vector2 entityPos = entities[i].position;
+	std::unordered_map<int, Entity*> entities = EntitiesGet();
+	for (auto it = entities.begin(); it != entities.end(); it++) {
+		Entity entity = *it->second;
+		Rectangle tileRect = { (entity.tileIndex % TILESET_WIDTH) * TILE_SIZE, (int)(entity.tileIndex / TILESET_HEIGHT) * TILE_SIZE, TILE_SIZE, TILE_SIZE};
+		Vector2 entityPos = entity.position;
 		entityPos.x *= TILE_SIZE;
 		entityPos.y *= TILE_SIZE;
-		DrawTextureRec(tileset, tileRect, entityPos, entities[i].color);
+		DrawTextureRec(tileset, tileRect, entityPos, entity.color);
 	}
 }
 

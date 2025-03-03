@@ -7,8 +7,12 @@
 
 #include <iostream>
 
-Entity::Entity(int ID, Vector2 position, int tileIndex, Color color) {
+Entity::Entity(int ID, std::string name, int maxHP, int damage, Vector2 position, int tileIndex, Color color) {
 	this->ID = ID;
+	this->name = name;
+	this->maxHP = maxHP;
+	this->HP = maxHP;
+	this->damage = damage;
 	this->position = position;
 	this->tileIndex = tileIndex;
 	this->direction = { 0,0 };
@@ -16,7 +20,8 @@ Entity::Entity(int ID, Vector2 position, int tileIndex, Color color) {
 }
 
 void Entity::CalculateTurn() {
-	int bestScore = INT16_MAX;
+	//int bestScore = INT16_MAX;
+	int bestScore = GetPlayerHeatmapTile(position.x, position.y);
 	Vector2 bestDirection = { 0, 0 };
 	for (int y = position.y - 1; y <= position.y + 1; y++) {
 		for (int x = position.x - 1; x <= position.x + 1; x++) {

@@ -4,11 +4,11 @@
 #include "Entity.h"
 
 #include "raylib.h"
-#include <vector>
+#include <unordered_map>
 
 void AddEntity(Vector2 pos, int tileIndex, Color color);
 void EntitiesClear();
-std::vector<Entity> EntitiesGet();
+std::unordered_map<int, Entity*> EntitiesGet();
 void EntitiesCalculateTurns();
 
 void PlayerPositionSet(int x, int y);

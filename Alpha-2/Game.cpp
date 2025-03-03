@@ -13,7 +13,7 @@ enum RenderingMode {
 	PLAYER_HEATMAP_TEXT,
 };
 
-enum RenderingMode renderingMode = PLAYER_HEATMAP_COLOR;
+enum RenderingMode renderingMode = NORMAL;
 
 void GameInitialize() {
 	RendererInitialize();
@@ -21,15 +21,15 @@ void GameInitialize() {
 }
 
 void GameUpdate() {
-	//structure of Update
-	//await for player actions
-	//await for entities actions
 	bool nextTurn = ListenToInput();
 	if (nextTurn) {
 		if (PlayerPositionGet().x == LadderPositionGet().x && PlayerPositionGet().y == LadderPositionGet().y)
 			MapGenerate();
 		EntitiesCalculateTurns();
 		std::cout << "End turn" << std::endl;
+	}
+	if (EntitiesGet()[0]->HP == 0) {
+		MapGenerate();
 	}
 }
 
@@ -56,5 +56,6 @@ void GameDraw() {
 
 
 void GameClose() {
+	EntitiesClear();
 	RendererClose();
 }
