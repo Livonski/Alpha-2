@@ -177,6 +177,7 @@ void PlaceLadderAndPlayer() {
 	map[rooms[ladderRoomIndex].CenterX][rooms[ladderRoomIndex].CenterY] = ladderTile;
 
 	PlayerPositionSet(rooms[playerRoomIndex].CenterX, rooms[playerRoomIndex].CenterY);
+	AddEntityToTile(rooms[playerRoomIndex].CenterX, rooms[playerRoomIndex].CenterY, 0);
 }
 
 void GenerateEnemies(int roomIndex) {

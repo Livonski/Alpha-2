@@ -63,12 +63,10 @@ void HeatmapColorDraw() {
 }
 
 void HeatmapTextDraw() {
-	// Проходим по каждой ячейке массива
 	for (int y = 0; y < WORLD_HEIGHT; y++) {
 		for (int x = 0; x < WORLD_WIDTH; x++) {
 			int value = GetPlayerHeatmapTile(x, y);
 
-			// Выбираем цвет текста в зависимости от значения
 			Color textColor = WHITE;
 			if (value == -1) {
 				textColor = RED;
@@ -77,20 +75,16 @@ void HeatmapTextDraw() {
 				textColor = GREEN;
 			}
 
-			// Вычисляем позицию ячейки на экране
 			int posX = x * TILE_SIZE;
 			int posY = y * TILE_SIZE;
 
-			// Отрисовываем фон ячейки (например, черный) и рамку (серый)
 			DrawRectangle(posX, posY, TILE_SIZE, TILE_SIZE, BLACK);
 			DrawRectangleLines(posX, posY, TILE_SIZE, TILE_SIZE, DARKGRAY);
 
-			// Форматируем значение ячейки в строку
 			const char* text = TextFormat("%d", value);
-			int fontSize = 10;  // Размер шрифта (можно изменить)
+			int fontSize = 10;
 			int textWidth = MeasureText(text, fontSize);
 
-			// Центрируем текст в ячейке
 			int textX = posX + (TILE_SIZE - textWidth) / 2;
 			int textY = posY + (TILE_SIZE - fontSize) / 2;
 			DrawText(text, textX, textY, fontSize, textColor);

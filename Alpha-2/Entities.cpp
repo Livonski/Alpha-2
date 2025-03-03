@@ -91,8 +91,6 @@ Vector2 LadderPositionGet() {
 	return ladderPosition;
 }
 
-//Bugs:
-//Sometimes 2 entities still can move in one tile
 void EntityMove(Vector2 direction, int ID) {
 	if (direction.x == 0 && direction.y == 0)
 		return;
