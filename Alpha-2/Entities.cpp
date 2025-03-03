@@ -17,7 +17,7 @@ Vector2 ladderPosition;
 
 void AddEntity(Vector2 pos, int tileIndex, Color color) {
 	AddEntityToTile(pos.x, pos.y, maxID);
-	Entity* newEntity = new Entity(maxID, "Goblin", 10, 2, pos, tileIndex, color);
+	Entity* newEntity = new Entity(maxID, "Goblin", 10, 0, 2, pos, tileIndex, color);
 	entities.emplace(maxID, newEntity);
 	maxID++;
 }
@@ -41,8 +41,14 @@ void EntitiesCalculateTurns() {
 	}
 }
 
+void EntitiesOnTurnEnd() {
+	for (auto it = entities.begin(); it != entities.end(); it++) {
+		it->second->OnTurnEnd();
+	}
+}
+
 void PlayerPositionSet(int x, int y) {
-	Entity* player = new Entity(0, "Player", 20, 5, { (float)x, (float)y }, TILE_INDEX_PLAYER, WHITE);
+	Entity* player = new Entity(0, "Player", 20, 0.2, 5, { (float)x, (float)y }, TILE_INDEX_PLAYER, WHITE);
 	entities.emplace(0, player);
 	OnPlayerMove(player->position);
 }
@@ -61,6 +67,8 @@ Vector2 LadderPositionGet() {
 	return ladderPosition;
 }
 
+//Bugs:
+//Sometimes entities still can move in one tile
 void EntityMove(Vector2 direction, int ID) {
 	if (direction.x == 0 && direction.y == 0)
 		return;

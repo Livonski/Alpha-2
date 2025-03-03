@@ -7,11 +7,13 @@
 
 #include <iostream>
 
-Entity::Entity(int ID, std::string name, int maxHP, int damage, Vector2 position, int tileIndex, Color color) {
+Entity::Entity(int ID, std::string name, int maxHP, double regeneration, int damage, Vector2 position, int tileIndex, Color color) {
 	this->ID = ID;
 	this->name = name;
 	this->maxHP = maxHP;
 	this->HP = maxHP;
+	this->regeneration = regeneration;
+	this->regenerationBuffer = 0;
 	this->damage = damage;
 	this->position = position;
 	this->tileIndex = tileIndex;
@@ -46,4 +48,13 @@ void Entity::CalculateTurn() {
 
 	direction = bestDirection;
 	EntityMove(direction, ID);
+}
+
+void Entity::OnTurnEnd() {
+	if(HP < maxHP)
+		regenerationBuffer += regeneration;
+	if (regenerationBuffer >= 1) {
+		HP = std::min(maxHP, HP + (int)regenerationBuffer);
+		regenerationBuffer = 0;
+	}
 }

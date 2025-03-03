@@ -11,7 +11,8 @@ public:
 
 	int maxHP;
 	int HP;
-	//int regen;
+	double regeneration;
+	double regenerationBuffer;
 	int damage;
 
 	Vector2 position;
@@ -20,8 +21,9 @@ public:
 	int tileIndex;
 	Color color;
 
-	Entity(int ID, std::string name, int maxHP, int damage, Vector2 position, int tileIndex, Color color);
+	Entity(int ID, std::string name, int maxHP, double regeneration, int damage, Vector2 position, int tileIndex, Color color);
 	void CalculateTurn();
+	void OnTurnEnd();
 };
 
 

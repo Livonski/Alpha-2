@@ -9,7 +9,9 @@
 void AddEntity(Vector2 pos, int tileIndex, Color color);
 void EntitiesClear();
 std::unordered_map<int, Entity*> EntitiesGet();
+
 void EntitiesCalculateTurns();
+void EntitiesOnTurnEnd();
 
 void PlayerPositionSet(int x, int y);
 Vector2 PlayerPositionGet();

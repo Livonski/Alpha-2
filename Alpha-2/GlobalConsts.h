@@ -23,11 +23,17 @@ const int WORLD_SEED = 42069;
 
 //Window stuff
 
-	const int WINDOW_HEIGHT = 608;
-	const int WINDOW_WIDTH  = 800;
+	const int UI_HEIGHT = 20;
+	const int UI_WIDTH  = 800;
+	const int GAME_HEIGHT = 608;
+	const int GAME_WIDTH = 800;
 
-	const int WORLD_WIDTH = WINDOW_WIDTH / TILE_SIZE;
-	const int WORLD_HEIGHT = WINDOW_HEIGHT / TILE_SIZE;
+
+	const int WINDOW_HEIGHT = GAME_HEIGHT + UI_HEIGHT;
+	const int WINDOW_WIDTH = GAME_WIDTH;
+
+	const int WORLD_WIDTH  = GAME_WIDTH  / TILE_SIZE;
+	const int WORLD_HEIGHT = GAME_HEIGHT / TILE_SIZE;
 
 //Entities stuff
 	const int ENEMIES_NUM_MIN = 1;
