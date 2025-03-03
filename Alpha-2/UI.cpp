@@ -5,5 +5,5 @@
 #include "raylib.h" 
 
 void UIDraw() {
-	DrawText(TextFormat("HP: %d/%d", EntitiesGet()[0]->HP, EntitiesGet()[0]->maxHP), 10, GAME_HEIGHT, 20, WHITE);
+	DrawText(TextFormat("HP: %d/%d", EntityGet(0)->HP, EntityGet(0)->maxHP), 10, GAME_HEIGHT, 20, WHITE);
 }

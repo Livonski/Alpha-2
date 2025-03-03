@@ -24,19 +24,18 @@ void GameInitialize() {
 void GameUpdate() {
 	bool nextTurn = ListenToInput();
 	if (nextTurn) {
-		//When player uses ladder old player is deleted and new player is born. For now it means that player restores HP
-		//But in future it could lead to various different problems
 		if (PlayerPositionGet().x == LadderPositionGet().x && PlayerPositionGet().y == LadderPositionGet().y)
 			MapGenerate();
 
 		EntitiesCalculateTurns();
 
-		if (EntitiesGet()[0]->HP == 0) {
-			MapGenerate();
-		}
 
 		EntitiesOnTurnEnd();
 		std::cout << "End turn" << std::endl;
+	}
+	if (EntityGet(0)->HP <= 0) {
+		EntitiesClear();
+		MapGenerate();
 	}
 }
 

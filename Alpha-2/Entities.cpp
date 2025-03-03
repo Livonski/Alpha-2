@@ -22,6 +22,18 @@ void AddEntity(Vector2 pos, int tileIndex, Color color) {
 	maxID++;
 }
 
+void EntitiesLevelClear() {
+	for (auto it = entities.begin(); it != entities.end(); ) {
+		if (it->first != 0) {
+			delete it->second;
+			it = entities.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
+}
+
 void EntitiesClear() {
 	for (auto& pair : entities) {
 		delete pair.second;
@@ -31,6 +43,10 @@ void EntitiesClear() {
 
 std::unordered_map<int, Entity*> EntitiesGet() {
 	return entities;
+}
+
+Entity* EntityGet(int ID) {
+	return entities[ID];
 }
 
 void EntitiesCalculateTurns() {
@@ -48,9 +64,17 @@ void EntitiesOnTurnEnd() {
 }
 
 void PlayerPositionSet(int x, int y) {
-	Entity* player = new Entity(0, "Player", 20, 0.2, 5, { (float)x, (float)y }, TILE_INDEX_PLAYER, WHITE);
-	entities.emplace(0, player);
-	OnPlayerMove(player->position);
+	auto it = entities.find(0);
+	if (it == entities.end()) {
+		Entity* player = new Entity(0, "Player", 20, 0.2, 5, { (float)x, (float)y }, TILE_INDEX_PLAYER, WHITE);
+		entities.emplace(0, player);
+		OnPlayerMove(player->position);
+	}
+	else {
+		it->second->position.x = x;
+		it->second->position.y = y;
+		OnPlayerMove(it->second->position);
+	}
 }
 
 Vector2 PlayerPositionGet() {
@@ -68,7 +92,7 @@ Vector2 LadderPositionGet() {
 }
 
 //Bugs:
-//Sometimes entities still can move in one tile
+//Sometimes 2 entities still can move in one tile
 void EntityMove(Vector2 direction, int ID) {
 	if (direction.x == 0 && direction.y == 0)
 		return;
