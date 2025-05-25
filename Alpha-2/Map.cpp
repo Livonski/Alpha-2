@@ -36,7 +36,7 @@ static bool Intersects(Room r1, Room r2) {
 
 void MapGenerate() {
 	std::cout << "Generating map" << std::endl;
-	EntitiesLevelClear();
+	//EntitiesLevelClear();
 	std::cout << WORLD_HEIGHT << " " << WORLD_WIDTH << std::endl;
 	srand(time(0));
 

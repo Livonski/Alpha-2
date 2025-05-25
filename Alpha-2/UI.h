@@ -3,4 +3,6 @@
 
 void UIDraw();
 
+void ShouldDrawDeathMessage(bool dead);
+
 #endif
