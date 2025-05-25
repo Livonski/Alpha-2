@@ -7,15 +7,25 @@
 
 #include <iostream>
 
-Entity::Entity(int ID, std::string name, int maxHP, double regeneration, int damage, Vector2 position, int tileIndex, Color color) {
+Entity::Entity(int ID, std::string name, int maxHP, double regeneration, int damage, int Level, int XP, int XPonKill, Vector2 position, int tileIndex, Color color) {
 	this->ID = ID;
 	this->name = name;
+
 	this->maxHP = maxHP;
 	this->HP = maxHP;
+
+	this->Level = Level;
+	this->XP = XP;
+	maxXP = CalculateMaxXp();
+	this->XPonKill = XPonKill;
+
 	this->regeneration = regeneration;
 	this->regenerationBuffer = 0;
+
 	this->damage = damage;
+
 	this->position = position;
+
 	this->tileIndex = tileIndex;
 	this->direction = { 0,0 };
 	this->color = color;
@@ -56,5 +66,21 @@ void Entity::OnTurnEnd() {
 	if (regenerationBuffer >= 1) {
 		HP = std::min(maxHP, HP + (int)regenerationBuffer);
 		regenerationBuffer = 0;
+	}
+}
+
+int Entity::CalculateMaxXp() {
+	return Level * 100;
+}
+
+void Entity::AddXP(int XP) {
+	this->XP += XP;
+	if (this->XP >= maxXP) {
+		Level++;
+		this->XP = (maxXP - this->XP) * -1;
+		maxXP = CalculateMaxXp();
+		maxHP += 5;
+		damage += 2;
+		HP = (HP + 5) > maxHP ? maxHP : (HP + 5);
 	}
 }

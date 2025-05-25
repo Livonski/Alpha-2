@@ -17,7 +17,7 @@ Vector2 ladderPosition;
 
 void AddEntity(Vector2 pos, int tileIndex, Color color) {
 	AddEntityToTile(pos.x, pos.y, maxID);
-	Entity* newEntity = new Entity(maxID, "Goblin", 10, 0, 2, pos, tileIndex, color);
+	Entity* newEntity = new Entity(maxID, "Goblin", 10, 0, 2, 1, 0, 15, pos, tileIndex, color);
 	entities.emplace(maxID, newEntity);
 	maxID++;
 }
@@ -66,7 +66,7 @@ void EntitiesOnTurnEnd() {
 void PlayerPositionSet(int x, int y) {
 	auto it = entities.find(0);
 	if (it == entities.end()) {
-		Entity* player = new Entity(0, "Player", 20, 0.2, 5, { (float)x, (float)y }, TILE_INDEX_PLAYER, WHITE);
+		Entity* player = new Entity(0, "Player", 20, 0.2, 5, 1, 0, 100, { (float)x, (float)y }, TILE_INDEX_PLAYER, WHITE);
 		entities.emplace(0, player);
 		OnPlayerMove(player->position);
 	}
@@ -110,9 +110,10 @@ void EntityMove(Vector2 direction, int ID) {
 			int damage = entity->damage;
 			entities[defender]->HP -= damage;
 			
-			std::cout << entity->name << " attacked " << entities[defender]->name << "for " << damage << " damage, " << entities[defender]->name << " remaining HP - " << entities[defender]->HP << std::endl;
+			std::cout << entity->name << " attacked " << entities[defender]->name << " for " << damage << " damage, " << entities[defender]->name << " remaining HP - " << entities[defender]->HP << std::endl;
 			
 			if (entities[defender]->HP <= 0 && defender != 0) {
+				entity->AddXP(entities[defender]->XPonKill);
 				RemoveEntityFromTile(entities[defender]->position.x, entities[defender]->position.y, defender);
 				entities.erase(defender);
 			}

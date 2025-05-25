@@ -7,9 +7,25 @@
 bool DrawDeathMessage = false;
 int DeathMessageFontSize = 40;
 
+int UIBarWidth;
+
 void UIDraw() {
+	UIBarWidth = 0;
+
 	//Health
 	DrawText(TextFormat("HP: %d/%d", EntityGet(0)->HP, EntityGet(0)->maxHP), 10, GAME_HEIGHT, 20, WHITE);
+	UIBarWidth += 10 + MeasureText(TextFormat("HP: %d/%d", EntityGet(0)->HP, EntityGet(0)->maxHP), 20);
+
+	//Damage
+	DrawText(TextFormat("Damage: %d", EntityGet(0)->damage), UIBarWidth + 10, GAME_HEIGHT, 20, WHITE);
+	UIBarWidth += 10 + MeasureText(TextFormat("Damage: %d", EntityGet(0)->damage), 20);
+
+	//XP & Level
+	DrawText(TextFormat("Level: %d", EntityGet(0)->Level), UIBarWidth + 10, GAME_HEIGHT, 20, WHITE);
+	UIBarWidth += 10 + MeasureText(TextFormat("Level: %d", EntityGet(0)->Level), 20);
+
+	DrawText(TextFormat("XP: %d/%d", EntityGet(0)->XP, EntityGet(0)->maxXP), UIBarWidth + 10, GAME_HEIGHT, 20, WHITE);
+	UIBarWidth += 10 + MeasureText(TextFormat("HP: %d/%d", EntityGet(0)->XP, EntityGet(0)->maxXP), 20);
 
 	//Death message
 	if (DrawDeathMessage) {
@@ -22,7 +38,7 @@ void UIDraw() {
 	}
 
 	//FPS
-	DrawFPS(GAME_WIDTH - 100, GAME_HEIGHT);
+	DrawFPS(UIBarWidth + 10, GAME_HEIGHT);
 }
 
 void ShouldDrawDeathMessage(bool dead) {
